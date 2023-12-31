@@ -16,7 +16,7 @@ public class Mole : MonoBehaviour
     [SerializeField] private GameManager gameManager;
 
     private Vector2 startPosition = new Vector2(0f, -2.56f); //niche
-    private Vector2 endPosition = Vector2.zero; //upar
+    private Vector2 endPosition = new Vector2(0,-0.2f); //upar
 
     private float showDuration = 0.56f; //upar aane me time
     private float duration = 1f; // waiting time
@@ -42,6 +42,7 @@ public class Mole : MonoBehaviour
     private float bombRate = 0f;
     private int lives;
     private int moleIndex = 0;
+    public GameObject hammer;
 
     // Start is called before the first frame update
       void Start()
@@ -60,6 +61,7 @@ public class Mole : MonoBehaviour
         SetLevel(level);
         CreateNext();
         StartCoroutine(showHide(startPosition, endPosition));
+        
     }
 
     private IEnumerator showHide(Vector2 start, Vector2 end) {
@@ -127,6 +129,7 @@ public class Mole : MonoBehaviour
                     StartCoroutine(QuickHide());
 
                     hittable = false;
+                   
                     break;
                 case MoleType.HardHat:
                     if(lives==2)
@@ -166,6 +169,8 @@ public class Mole : MonoBehaviour
     public void Hide()
     {
         transform.localPosition = startPosition;
+        hammer.transform.position = new Vector3(transform.position.x , transform.position.y +0.985f , transform.position.z);
+        Debug.Log(transform.position.x+ transform.position.y);
     }
     
     private void CreateNext()
