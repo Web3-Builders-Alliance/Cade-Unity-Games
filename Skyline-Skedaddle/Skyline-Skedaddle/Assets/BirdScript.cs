@@ -23,12 +23,14 @@ public class BirdScript : MonoBehaviour
 
     public void flapBird()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive)
+        if (Input.GetMouseButtonDown(0) && birdIsAlive)
         {
             myRigidBody2D.velocity = Vector2.up * flapStrenght;
          
         }
     }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         logic.gameOver();
