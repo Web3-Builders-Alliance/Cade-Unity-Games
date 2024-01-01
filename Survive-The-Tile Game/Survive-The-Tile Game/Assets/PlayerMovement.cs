@@ -40,18 +40,70 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && score<6)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            player.AddForce(new Vector2 (player.transform.position.x , jump));
-            locator = "L" + count.ToString();
-            Vector3 position = GameObject.FindGameObjectWithTag(locator).transform.position;
-            Debug.Log(position);
-            player.transform.position = new Vector3(position.x , position.y+ 1 , position.z);
-            count++;
+            if(score < 6)
+            {
+                player.AddForce(new Vector2(player.transform.position.x, jump));
+                locator = "L" + count.ToString();
+                Vector3 position = GameObject.FindGameObjectWithTag(locator).transform.position;
+                Debug.Log(position);
+                player.transform.position = new Vector3(position.x, position.y + 1, position.z);
+                count++;
+            }
+            else if(score==6)
+            {
+                Debug.Log("Wind");
+                wonCondition();
+                Invoke("showWinningScreen", 1);
+            }
+            
 
         }
 
-        if (Input.GetKeyDown(KeyCode.B) && score < 6)
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if(score <6)
+            {
+                locator = "R" + count.ToString();
+                Vector3 position = GameObject.FindGameObjectWithTag(locator).transform.position;
+                Debug.Log(position);
+                player.transform.position = new Vector3(position.x, position.y + 1, position.z);
+                count++;
+            }
+            else if(score == 6)
+            {
+                Debug.Log("Wind");
+                wonCondition();
+                Invoke("showWinningScreen", 1);
+            }
+           
+        }
+
+    }
+
+    public void simulateA()
+    {
+        if (score < 6)
+        {
+            player.AddForce(new Vector2(player.transform.position.x, jump));
+            locator = "L" + count.ToString();
+            Vector3 position = GameObject.FindGameObjectWithTag(locator).transform.position;
+            Debug.Log(position);
+            player.transform.position = new Vector3(position.x, position.y + 1, position.z);
+            count++;
+        }
+        else if (score == 6)
+        {
+            Debug.Log("Wind");
+            wonCondition();
+            Invoke("showWinningScreen", 1);
+        }
+    }
+
+    public void simulateB()
+    {
+        if (score < 6)
         {
             locator = "R" + count.ToString();
             Vector3 position = GameObject.FindGameObjectWithTag(locator).transform.position;
@@ -59,22 +111,14 @@ public class PlayerMovement : MonoBehaviour
             player.transform.position = new Vector3(position.x, position.y + 1, position.z);
             count++;
         }
-
-        if(Input.GetKeyDown(KeyCode.A) && score == 6)
+        else if (score == 6)
         {
             Debug.Log("Wind");
             wonCondition();
             Invoke("showWinningScreen", 1);
         }
-
-        if (Input.GetKeyDown(KeyCode.B) && score == 6)
-        {
-            Debug.Log("Wind");
-            wonCondition();
-            Invoke("showWinningScreen", 1);
-        }
-
     }
+
 
 
     public void OnCollisionEnter2D(Collision2D collision)
