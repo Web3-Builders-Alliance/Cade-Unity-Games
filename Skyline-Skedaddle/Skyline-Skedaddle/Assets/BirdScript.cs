@@ -18,6 +18,10 @@ public class BirdScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(transform.position.y < -15)
+        {
+            logic.gameOver();
+        }
         flapBird();
     }
 
