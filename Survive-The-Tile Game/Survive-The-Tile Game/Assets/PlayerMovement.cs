@@ -11,15 +11,13 @@ public class PlayerMovement : MonoBehaviour
 
     //A - Left/Upper
     //B - Rigth/Lower
-    //decider - 0 OK
-    //decider - 1 Fall
-
     public int result;
     public int count = 0;
     public string locator;
     public Rigidbody2D player;
     public int timer = 3;
     public int jump = 20;
+    private float successRate;
 
     public GameObject lb;
     public GameObject rb;
@@ -28,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
 
     public Text text;
     public int score = 0;
+
+    [Header("Light")]
+    [SerializeField] private Sprite greenLight;
+    [SerializeField] private Sprite redLight;
+    public GameObject ligth;
 
     void Start()
     {
@@ -73,39 +76,30 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    public int generateRandom()
-    {
-        int decider = Random.Range(0, 2);
-        return decider;
-    }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag(locator))
         {
             Debug.Log("A Pressed");
-            result = generateRandom();
+           
+            successRate = Random.Range(0.0f , 0.5f);
             Debug.Log("Decider for A is" + result);
             Debug.Log("Count is" + count.ToString());
-            //player.transform.position = new Vector3(0,1.0F ,0);
-            if(result==1)
+            if(successRate > 0.25)
             {
-                GameObject.Find("Light").GetComponent<Renderer>().material.color = Color.red;
-                GameObject.Find("Light2").GetComponent<Renderer>().material.color = Color.red;
-                GameObject.Find("Light3").GetComponent<Renderer>().material.color = Color.red;
+                ligth.GetComponent<SpriteRenderer>().sprite = redLight;
                 
                 Invoke("afterMath", 1);
                 Invoke("showPauseMenu", 2);
-                //showPauseMenu();
                 
             }
-            else if (result == 0)
+            else if (successRate <= 0.25)
             {
                 score = score + 1;
                 text.text = "Score : "+score.ToString();
-                GameObject.Find("Light").GetComponent<Renderer>().material.color = Color.green;
-                GameObject.Find("Light2").GetComponent<Renderer>().material.color = Color.green;
-                GameObject.Find("Light3").GetComponent<Renderer>().material.color = Color.green;
+                ligth.GetComponent<SpriteRenderer>().sprite = greenLight;
+                
             }
         }
     }
@@ -145,10 +139,6 @@ public class PlayerMovement : MonoBehaviour
         pauseMenue.SetActive(false);
     }
 
-    public void quit()
-    {
-        Application.Quit();
-    }
 
     public void mintWinningNft()
     {
